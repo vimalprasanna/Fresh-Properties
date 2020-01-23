@@ -1,0 +1,213 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+.header {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the side navigation */
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+
+  z-index: 1;
+  top: 120px;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+}
+.split {
+  padding: 20px;
+  border: 5px solid gray;
+  height: 100%;
+
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  padding-top: 20px;
+  text-align:left;
+}
+
+
+/* Side navigation links */
+.sidenav a {
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color on hover */
+.sidenav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Style the content */
+.content {
+  margin-left: 200px;
+  padding-left: 20px;
+
+}
+
+
+
+
+input[type=email],input[type=label] input[type=text], input[type=password] {
+  float:left;
+  width: 25%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  left:10px;
+  position:relative;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.filter_container{
+  padding: 16px;
+  position: absolute;
+  top: 110px;
+  left:350px;
+  width: 1200px;
+  height: 50px;
+  display:inline-block;
+  text-align:center;
+
+
+
+}
+.container {
+  border-radius: 15px 50px;
+
+  padding: 16px;
+  position: absolute;
+  top: 160px;
+  left:350px;
+  width: 1200px;
+  height: 600px;
+  display:inline-block;
+  overflow:scroll;
+  text-align:center;
+}
+.container2{
+  padding: 10px;
+  border: 5px solid white;
+  text-align:center;
+  position:relative;
+  height:200px;
+  width:100%;
+  background-color:LightGray;
+
+}
+</style>
+</head>
+<body>
+  <div class="header">
+  <h1>Fresh Properties</h1>
+</div>
+
+<div class="sidenav">
+  <a href=<%=new_property_path%>>Add property</a>
+  <a href=<%=your_properties_path%>>My Properties</a>
+  <a href=<%=filtered_properties_path%>>Rent</a>
+  <a href=<%=interested_properties_path%>>Interested Properties</a>
+  <a href=<%=logout_path%>>Logout</a>
+</div>
+
+
+
+<div class="container">
+  <%if @comment.empty? %>
+  <%= "No Comments"%>
+  <%else%>
+  <div class="container2">
+
+
+      Property:
+
+      <%= @comment.first.property.name%>
+      <br>
+      <br>
+      <br>
+      Location:
+      <%= @comment.first.property.location%>
+      <br>
+      <br>
+      <br>
+      Property Type:
+      <%= @comment.first.property.property_type%>
+
+
+
+  </div>
+<% @comment.each do |comment| %>
+
+  <div class="container2">
+
+    <div class="split">
+      <%=comment.sender.user_name %>:
+
+      <%= comment.comment%>
+    </div>
+
+  </div>
+  <% end %>
+  <div class="container2">
+  <div class="split">
+    <%= form_for(:comments,url:property_comments_path(:property_id =>@comment.first.property_id)) do |c|%>
+    <%= c.label :comment %>
+    <%= c.text_field :comment,autofocus: true %>
+    <br>
+    <br>
+    <%= c.submit "comment",class:"button button2"%>
+    <%end%>
+    <%=flash[:success]%>
+    <%=flash[:error]%>
+  </div>
+  </div>
+
+  <%end%>
+
+</div>
+
+
+
+
+
+
+
+</body>
+</html>
