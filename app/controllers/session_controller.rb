@@ -7,11 +7,9 @@ class SessionController < ApplicationController
   def new; end
 
   def create
-    @users = User.find_by(email_id: params[:session][:email_id])
-    if @users.password== params[:session][:password]
-      session[:user_id] = @users.id
+    if @user.password == params[:session][:password]
+      session[:user_id] = @user.id
       redirect_to profile_path
-
     else
       flash.now[:error] = 'Invalid login credentials'
       render 'index'
@@ -25,10 +23,10 @@ class SessionController < ApplicationController
   end
 
   def load_user
-    @users = User.find_by(email_id: params[:session][:email_id])
-    if @users.nil?
-      flash.now[:error] = 'Email Id not registered'
-      render 'index'
-    end
+    @user = User.find_by(email_id: params[:session][:email_id])
+    return unless @user.nil?
+
+    flash.now[:error] = 'Email Id not registered'
+    render 'index'
   end
 end

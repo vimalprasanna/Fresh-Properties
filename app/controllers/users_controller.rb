@@ -35,9 +35,10 @@ class UsersController < ApplicationController
   end
 
   def already_exists
-    if User.find_by(email_id: user_params[:email_id])
-      flash[:already] = 'User Already Exists'
-      redirect_to new_user_path
-    end
+    user = User.find_by(email_id: user_params[:email_id])
+    return if user.blank?
+
+    flash[:already] = 'User Already Exists'
+    redirect_to new_user_path
   end
 end
