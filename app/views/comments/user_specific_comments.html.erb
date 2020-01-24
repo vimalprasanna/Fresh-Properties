@@ -152,22 +152,22 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
 
       Property:
 
-      <%= @comment.first.property.name%>
+      <%= @comments.first.property.name%>
       <br>
       <br>
       <br>
       Location:
-      <%= @comment.first.property.location%>
+      <%= @comments.first.property.location%>
       <br>
       <br>
       <br>
       Property Type:
-      <%= @comment.first.property.property_type%>
+      <%= @comments.first.property.property_type%>
 
 
 
   </div>
-<% @comment.each do |comment| %>
+<% @comments.each do |comment| %>
 
   <div class="container2">
 
@@ -181,7 +181,7 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
   <% end %>
   <div class="container2">
   <div class="split">
-    <%= form_for(:comments,url:property_comments_path(:property_id =>@comment.first.property_id,:receiver_id=>@comment.first.sender.id)) do |c|%>
+    <%= form_for(:get_comment,url:property_comments_path(:property_id =>@comments.first.property_id,:receiver_id=>@comments.first.sender.id)) do |c|%>
     <%= c.label :comment %>
     <%= c.text_field :comment,autofocus: true %>
     <br>

@@ -3,22 +3,20 @@
 # Comments Controller
 class CommentsController < ActionController::Base
   def index
-    @property = Property.find_by(id: params[:property_id])
-    @comment = Comment.where(property_id: params[:property_id])
-    @comment = @comment.where.not(sender_id: session[:user_id])
-    @sender = @comment.pluck(:sender_id)
-    @sender = User.where(id: @sender)
+    @comments = Comment.where(property_id: params[:property_id])
+    @comments = @comments.includes(:sender)
+                         .where.not(sender_id: session[:user_id])
+                         .references(:sender)
   end
 
   def user_specific_comments
-    @comment = Comment.where(sender_id: params[:user_id],
-                             property_id: params[:property_id])
-                      .or(Comment.where(receiver_id: params[:user_id],
-                                        property_id: params[:property_id]))
-    @comment = @comment.order(created_at: :asc)
+    @comments = Comment.where(sender_id: params[:user_id],
+                              property_id: params[:property_id])
+                       .or(Comment.where(receiver_id: params[:user_id],
+                                         property_id: params[:property_id]))
+    @comments = @comments.includes(:sender).order(created_at: :asc)
+                         .references(:sender)
   end
-
-  def show; end
 
   def new
     @comment = Comment.new
@@ -39,19 +37,17 @@ class CommentsController < ActionController::Base
     end
   end
 
-  def delete; end
-
   def my_comments
     @comment = Comment.where(sender_id: session[:user_id],
                              property_id: params[:property_id])
                       .or(Comment.where(receiver_id: session[:user_id],
                                         property_id: params[:property_id]))
-    @comment = @comment.order(created_at: :asc)
+    @comment = @comment.includes(:sender).order(created_at: :asc).references(:sender)
   end
 
   private
 
   def comment_params
-    params.permit(:sender_id, :property_id, :comments, :receiver_id)
+    params.permit(:sender_id, :property_id, :comment, :receiver_id)
   end
 end

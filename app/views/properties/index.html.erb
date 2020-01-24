@@ -157,10 +157,11 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
 
 
   <div class="container">
-    <%if @property.empty?%>
-    <%="No matching properties"%>
+
+    <%if @properties.empty?%>
+      <%="No matching properties"%>
     <%else%>
-  <% @property.each do |property| %>
+      <% @properties.each do |property| %>
     <div class="container2">
 
 
@@ -213,12 +214,13 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
 
     </div>
     <% end %>
-    <%end%>
+    <% end %>
+
 </div>
 <div class="filter_container">
 
 
-  <%= form_for(:properties,url: filtered_properties_path) do |f| %>
+  <%= form_for(:property,url: filtered_properties_path) do |f| %>
 
           <%= f.label :location %>
           <%= f.text_field :location,autofocus: true %>

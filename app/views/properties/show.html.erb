@@ -143,10 +143,10 @@ input[type=email], input[type=text], input[type=password] {
 
 
 <div class="container">
-<%if @property.empty?%>
+<%if @properties.empty?%>
 <%="No properties"%>
 <%else%>
-  <% @property.each do |property| %>
+  <% @properties.each do |property| %>
   <div class="container2">
 
 
@@ -173,7 +173,7 @@ input[type=email], input[type=text], input[type=password] {
   Rent :
 <%= property.rent%>
 </div>
-<% if property.availability=="available"%>
+<% if property.tenant_id==nil%>
 <div class="split">
  <% if logged_in? and (current_user == property.owner) %>
 

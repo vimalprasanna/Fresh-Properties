@@ -2,12 +2,9 @@
 
 # Interested Users Controller
 class InterestedUsersController < ApplicationController
-  def new; end
-
-  def show; end
-
   def approve
-    destroy_interested_users if change_availability
+    destroy_interested_users if Property.set_tenant(params[:id],
+                                                    params[:user_id])
     redirect_to your_properties_path
   end
 
@@ -25,12 +22,11 @@ class InterestedUsersController < ApplicationController
   end
 
   def create
-    property_id = params[:property_id]
-    property = Property.find_by(id: property_id)
+    property = Property.find_by(id: params[:property_id])
     user_id = session[:user_id]
     if (user_id != property.owner_id) && already_registered?
       @interested_user = InterestedUser.new(user_id: user_id,
-                                            property_id: property_id)
+                                            property_id: property.id)
       @interested_user.save
     end
     redirect_to filtered_properties_path
@@ -56,13 +52,6 @@ class InterestedUsersController < ApplicationController
   def destroy_interested_users
     @interested = InterestedUser.where(property_id: params[:id])
     @interested.destroy_all
-  end
-
-  def change_availability
-    @property = Property.find_by(id: params[:id])
-    @property.tenant_id = params[:user_id]
-    @property.availability = 'unavailable'
-    @property.save
   end
 
   def already_registered?

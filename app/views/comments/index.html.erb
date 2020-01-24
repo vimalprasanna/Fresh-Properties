@@ -150,7 +150,7 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
 
 
 <div class="container">
-  <%if @comment.empty? %>
+  <%if @comments.empty? %>
   <%="No comments"%>
   <%else%>
 
@@ -159,35 +159,36 @@ input[type=email],input[type=label] input[type=text], input[type=password] {
 
       Property:
 
-      <%= @comment.first.property.name%>
+      <%= @comments.first.property.name%>
       <br>
       <br>
       <br>
       Location:
-      <%= @comment.first.property.location%>
+      <%= @comments.first.property.location%>
       <br>
       <br>
       <br>
       Property Type:
-      <%= @comment.first.property.property_type%>
-
+      <%= @comments.first.property.property_type%>
+      <%property_id=@comments.first.property.id%>
 
 
   </div>
-<% @sender.each do |sender| %>
+
+<% @comments.each do |comment| %>
 
   <div class="container2">
 
     <div class="split">
       Name:
-      <%=sender.user_name%>
+      <%=comment.sender.user_name%>
       <br>
       Email:
-      <%= sender.email_id%>
+      <%=comment.sender.email_id%>
 
       <br>
       <br>
-      <%=link_to "comments" ,user_user_specific_comments_path(:user_id=>sender.id,:property_id=>@property.id),class:"button button2"%>
+      <%=link_to "comments" ,user_user_specific_comments_path(:user_id=>comment.sender.id,:property_id=>property_id),class:"button button2"%>
 
     </div>
 

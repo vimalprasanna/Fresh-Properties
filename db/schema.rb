@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200123065158) do
+ActiveRecord::Schema.define(version: 20200124070111) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "sender_id"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20200123065158) do
     t.string   "location"
     t.integer  "owner_id"
     t.string   "property_type"
-    t.string   "availability"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
@@ -49,7 +48,7 @@ ActiveRecord::Schema.define(version: 20200123065158) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.index ["id"], name: "index_properties_on_id", using: :btree
-    t.index ["owner_id", "availability", "id"], name: "index_properties_on_owner_id_and_availability_and_id", using: :btree
+    t.index ["owner_id", "id"], name: "index_properties_on_owner_id_and_availability_and_id", using: :btree
     t.index ["owner_id"], name: "index_properties_on_owner_id", using: :btree
   end
 

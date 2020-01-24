@@ -23,11 +23,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @users.update(users_params)
-      redirect_to users_path(@users)
-    else
-      render :edit
-    end
+    return redirect_to users_path(@users) if @users.update(users_params)
+
+    render :edit
   end
 
   def user_params
